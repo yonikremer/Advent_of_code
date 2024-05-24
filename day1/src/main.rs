@@ -12,9 +12,9 @@ fn main() {
 
 fn part2(){
     let file_path = "part1_input.txt";
-    let mut contents_input = read_to_string(file_path).unwrap();
+    let contents_input = read_to_string(file_path).unwrap();
     let mut sum = 0;
-    let digit_name_to_digits: HashMap<&str, u32> =  [
+    let digit_name_to_digits: HashMap<&str, u32> =  IntoIterator::into_iter([
         ("one", 1),
         ("two", 2),
         ("three", 3),
@@ -24,8 +24,8 @@ fn part2(){
         ("seven", 7),
         ("eight", 8),
         ("nine", 9)
-    ].iter().cloned().collect();
-    let reversed_digit_name_to_digits: HashMap<&str, u32> = [
+    ]).collect();
+    let reversed_digit_name_to_digits: HashMap<&str, u32> = IntoIterator::into_iter([
         ("eno", 1),
         ("owt", 2),
         ("eerht", 3),
@@ -35,7 +35,7 @@ fn part2(){
         ("neves", 7),
         ("thgie", 8),
         ("enin", 9)
-    ].iter().cloned().collect();
+    ]).collect();
     let first_match_regexp = Regex::new(r"\d|one|two|three|four|five|six|seven|eight|nine").unwrap();
     let last_match_regexp = Regex::new(r"\d|enin|thgie|neves|xis|evif|ruof|eerht|owt|eno").unwrap();
     for mut line in contents_input.lines(){
