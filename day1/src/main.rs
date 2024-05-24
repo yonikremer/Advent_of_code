@@ -36,10 +36,10 @@ fn part2(){
         ("thgie", 8),
         ("enin", 9)
     ]).collect();
-    let first_match_regexp = Regex::new(r"\d|one|two|three|four|five|six|seven|eight|nine").unwrap();
-    let last_match_regexp = Regex::new(r"\d|enin|thgie|neves|xis|evif|ruof|eerht|owt|eno").unwrap();
+    let first_match_regexp = Regex::new(r"\d|one|two|three|four|five|six|seven|eight|nine").expect("Invalid regex");
+    let last_match_regexp = Regex::new(r"\d|enin|thgie|neves|xis|evif|ruof|eerht|owt|eno").expect("Invalid regex");
     for mut line in contents_input.lines(){
-        let first_digits: Captures = first_match_regexp.captures(line).unwrap();
+        let first_digits: Captures = first_match_regexp.captures(line).expect(format!("No digit in line {}", line).as_str());
         let first_match = first_digits.iter().next().unwrap().unwrap().as_str();
         let first_error_message = format!("Regex matched invalid digit {first_match} in line {line}");
         let first_digit = if first_match.len() == 1 {
@@ -50,7 +50,7 @@ fn part2(){
 
         let reversed_line_string: String = line.chars().rev().collect();
         let reversed_line: &str = reversed_line_string.as_str();
-        let last_digits: Captures = last_match_regexp.captures(reversed_line).unwrap();
+        let last_digits: Captures = last_match_regexp.captures(reversed_line).expect(format!("No digit in line {}", line).as_str());
         let last_match = last_digits.iter().next().unwrap().unwrap().as_str();
         let last_error_message = format!("Regex matched invalid digit {last_match} in line {line}");
         let last_digit = if last_match.len() == 1 {
