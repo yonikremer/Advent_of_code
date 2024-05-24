@@ -38,7 +38,7 @@ fn part2(){
     ]).collect();
     let first_match_regexp = Regex::new(r"\d|one|two|three|four|five|six|seven|eight|nine").expect("Invalid regex");
     let last_match_regexp = Regex::new(r"\d|enin|thgie|neves|xis|evif|ruof|eerht|owt|eno").expect("Invalid regex");
-    for mut line in contents_input.lines(){
+    for line in contents_input.lines(){
         let first_digits: Captures = first_match_regexp.captures(line).expect(format!("No digit in line {}", line).as_str());
         let first_match = first_digits.iter().next().unwrap().unwrap().as_str();
         let first_error_message = format!("Regex matched invalid digit {first_match} in line {line}");
