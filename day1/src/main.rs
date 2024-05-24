@@ -1,32 +1,18 @@
 use std::collections::HashMap;
 use std::fs::read_to_string;
-use std::num::ParseIntError;
 use std::str::FromStr;
 
-use regex::{Captures, Match, Regex};
+use regex::{Captures, Regex};
 
 fn main() {
+    part1();
     part2();
-}
-
-
-
-fn to_digit(s: &str, str_to_u32: &HashMap<&str, u32> ) -> Result<u32, ParseIntError>{
-    return if s.len() == 1 {
-        u32::from_str(s)
-    } else {
-        if let Some(digit) = str_to_u32.get(s) {
-            Ok(*digit)
-        } else {
-            panic!();
-        }
-    }
 }
 
 
 fn part2(){
     let file_path = "part1_input.txt";
-    let contents_input = read_to_string(file_path).unwrap();
+    let mut contents_input = read_to_string(file_path).unwrap();
     let mut sum = 0;
     let digit_name_to_digits: HashMap<&str, u32> =  [
         ("one", 1),
@@ -52,17 +38,26 @@ fn part2(){
     ].iter().cloned().collect();
     let first_match_regexp = Regex::new(r"\d|one|two|three|four|five|six|seven|eight|nine").unwrap();
     let last_match_regexp = Regex::new(r"\d|enin|thgie|neves|xis|evif|ruof|eerht|owt|eno").unwrap();
-    for line in contents_input.lines(){
+    for mut line in contents_input.lines(){
         let first_digits: Captures = first_match_regexp.captures(line).unwrap();
-        let first_match: Match = first_digits.iter().next().unwrap().unwrap();
-        let first_digit = to_digit(first_match.as_str(), &digit_name_to_digits).unwrap();
+        let first_match = first_digits.iter().next().unwrap().unwrap().as_str();
+        let first_error_message = format!("Regex matched invalid digit {first_match} in line {line}");
+        let first_digit = if first_match.len() == 1 {
+            u32::from_str(first_match).expect(first_error_message.as_str())
+        } else {
+            *digit_name_to_digits.get(first_match).expect(first_error_message.as_str())
+        };
 
-        let reversed_line_string = line.chars().rev().collect::<String>();
+        let reversed_line_string: String = line.chars().rev().collect();
         let reversed_line: &str = reversed_line_string.as_str();
         let last_digits: Captures = last_match_regexp.captures(reversed_line).unwrap();
-        let last_match: Match = last_digits.iter().next().unwrap().unwrap();
-        let last_digit = to_digit(last_match.as_str(), &reversed_digit_name_to_digits).unwrap();
-
+        let last_match = last_digits.iter().next().unwrap().unwrap().as_str();
+        let last_error_message = format!("Regex matched invalid digit {last_match} in line {line}");
+        let last_digit = if last_match.len() == 1 {
+            u32::from_str(last_match).expect(last_error_message.as_str())
+        } else {
+            *reversed_digit_name_to_digits.get(last_match).expect(last_error_message.as_str())
+        };
         sum += first_digit * 10 + last_digit;
     }
     println!("{}", sum);
