@@ -11,7 +11,7 @@ fn main() {
 
 
 fn part2(){
-    let file_path = "part1_input.txt";
+    let file_path = "input.txt";
     let contents_input = read_to_string(file_path).unwrap();
     let mut sum = 0;
     let digit_name_to_digits: HashMap<&str, u32> =  IntoIterator::into_iter([
@@ -64,7 +64,7 @@ fn part2(){
 }
 
 fn part1() {
-    let file_path = "part1_input.txt";
+    let file_path = "input.txt";
     let contents_input = read_to_string(file_path).unwrap();
     let mut sum: u32 = 0;
     for line in contents_input.lines() {
