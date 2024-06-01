@@ -14,8 +14,7 @@ struct NumberFound {
 
 
 
-fn part1(){
-    let file_path = "input.txt";
+fn part1(file_path: &str) -> usize {
     let contents_input = read_to_string(file_path).unwrap();
     let lines: Vec<&str> = contents_input.lines().collect();
     let mut number_positions: Vec<NumberFound> = Vec::new();
@@ -47,6 +46,8 @@ fn part1(){
         symbol_grid.push(symbol_line);
     }
 
+    let mut sum: usize = 0;
+
     for number in number_positions.iter() {
         let mut has_adjacent_symbols: bool = false;
         let mut lines_to_search: Vec<usize> = vec![number.line_index];
@@ -70,15 +71,14 @@ fn part1(){
         }
         if has_adjacent_symbols {
             sum += number.value;
-        } else {
-            println!("{:?} Has no adjacent symbols", number);
         }
-
     }
-    println!("The sum of all the numbers is {}", sum);
+    sum
 }
 
 
 fn main() {
-    part1();
+    let file_path = "input.txt";
+    let sum = part1(file_path);
+    println!("The sum of all the numbers is {}", sum);
 }
